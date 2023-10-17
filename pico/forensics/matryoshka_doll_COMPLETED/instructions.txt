@@ -1,0 +1,16 @@
+# 1. Use xxd to find block containing 'IEND', indicating the end of the PNG file.
+# NB: You may have to search for part of the string if 'IEND' is split between two blocks.
+xxd dolls.jpg | grep IEND
+
+# 2. Convert block number from base 16 to base 10.
+python -c "print(int('42860', 16))"
+
+# 3. Run dd on the jpg file using the block number to remove everything before the block.
+dd if=dolls.jpg bs=1 skip=272480 of=dolls.zip
+
+# 4. Clean up the start of the zip file by removing everything before the 'PK'.
+
+# 5. Extract the zip file
+7z x dolls.zip
+
+# 6. Repeat steps 1-5 until you find flag.txt
